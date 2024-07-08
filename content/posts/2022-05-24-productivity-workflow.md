@@ -7,6 +7,8 @@ summary: "A simple framework to get things done without spending most of your da
 toc: true
 readTime: true
 autonumber: true
+tags: ['productivity']
+showTags: true
 ---
 
 ## Context

@@ -1,13 +1,15 @@
-+++
-title = "Deep learning for Arabic part-of-speech tagging"
-date = 2019-03-18
-draft = false
-description = "A simple approach to build PoS-tagger with LSTM and Keras"
-summary = "A simple approach to build PoS-tagger with LSTM and Keras"
-toc = true
-readTime = true
-autonumber = true
-+++
+---
+title : "Deep learning for Arabic part-of-speech tagging"
+date : 2019-03-18
+draft : false
+description : "A simple approach to build PoS-tagger with LSTM and Keras"
+summary : "A simple approach to build PoS-tagger with LSTM and Keras"
+toc : true
+readTime : true
+autonumber : true
+tags : ["python", "nlp", "deep-learning", "arabic"]
+showTags : true
+---
 
 
 

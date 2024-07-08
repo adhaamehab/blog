@@ -1,6 +1,6 @@
 baseURL = 'adhaamehab.github.io/blog'
 languageCode = 'en-us'
-title = "Blog"
+title = "Adham Ehab"
 theme = "typo"
 
 
@@ -20,9 +20,13 @@ googleAnalytics = "G-xxxxxxxxx"
 description = "A blog about building software and other things"
 
 # Appearance settings
-theme = 'auto'
-colorPalette = 'default'
+theme = 'auto | light | dark'
+colorPalette = 'eink'
 hideHeader = false
+
+listSummaries = true
+listDateFormat = '2 Jan 2006'
+
 
 # Intro on main page, content is markdown
 homeIntroTitle = 'Hello!'
