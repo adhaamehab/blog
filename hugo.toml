@@ -1,0 +1,78 @@
+baseURL = 'adhaamehab.github.io'
+languageCode = 'en-us'
+title = "Blog"
+theme = "Typo"
+
+
+author = "Adham Ehab"
+paginate = 5
+summaryLength = 30
+
+
+[taxonomies]
+tag = 'tags'
+
+# Google analytics code
+googleAnalytics = "G-xxxxxxxxx"
+
+[params]
+# Meta description
+description = "A blog about building software and other things"
+
+# Appearance settings
+theme = 'auto'
+colorPalette = 'default'
+hideHeader = false
+
+# Intro on main page, content is markdown
+homeIntroTitle = 'Hello!'
+homeIntroContent = """
+I am a software engineer with passion for computer science, distributed systems, databases and ML systems.
+"""
+
+# Collection to display on home
+homeCollectionTitle = 'Posts'
+homeCollection = 'posts'
+
+# Lists parameters
+paginationSize = 30
+listSummaries = true
+listDateFormat = '2 Jan 2006'
+
+# Breadcrumbs
+breadcrumbs = true
+
+# Social icons
+[[params.social]]
+name = "linkedin"
+url = "https://www.linkedin.com/in/adham-ehab/"
+
+[[params.social]]
+name = "medium"
+url = "https://medium.com/@adhamehab"
+
+[[params.social]]
+name = "github"
+url = "https://github.com/adhaamehab"
+
+[[params.social]]
+name = "twitter"
+url = "https://x.com/_adhameh"
+
+# Main menu pages
+[[params.menu]]
+name = "home"
+url = "/"
+
+[[params.menu]]
+name = "posts"
+url = "/posts"
+
+[[params.menu]]
+name = "about"
+url = "/about"
+
+# Syntax highlight on code blocks
+[markup]
+[markup.highlight]
+style = 'algol'
