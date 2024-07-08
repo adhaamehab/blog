@@ -1,5 +1,5 @@
 ---
-title : '2022 05 24 Getting more productive without getting tired.'
+title : 'Getting more productive without getting tired.'
 date : 2022-05-24T15:20:29+03:00
 draft : false
 description : 'A simple framework to get things done without spending most of your day at work'
