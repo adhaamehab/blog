@@ -5,5 +5,5 @@
 	path = themes/ficurinia
 	url = https://gitlab.com/gabmus/hugo-ficurinia
 [submodule "themes/typo"]
-	path = themes/typo
+	path = themes/Typo
 	url = https://github.com/tomfran/typo.git
