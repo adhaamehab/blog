@@ -2,23 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>//localhost:1313/</loc>
+    <loc>adhaamehab.github.io/</loc>
+    <lastmod>2024-02-03T10:30:00+03:00</lastmod>
+  </url><url>
+    <loc>adhaamehab.github.io/posts/</loc>
+    <lastmod>2024-02-03T10:30:00+03:00</lastmod>
+  </url><url>
+    <loc>adhaamehab.github.io/posts/2024-06-18-rant-on-python/</loc>
+    <lastmod>2024-02-03T10:30:00+03:00</lastmod>
+  </url><url>
+    <loc>adhaamehab.github.io/posts/2024-07-02-managing-your-manager/</loc>
     <lastmod>2024-02-02T15:20:29+03:00</lastmod>
   </url><url>
-    <loc>//localhost:1313/posts/2024-07-02-managing-your-manager/</loc>
-    <lastmod>2024-02-02T15:20:29+03:00</lastmod>
-  </url><url>
-    <loc>//localhost:1313/posts/</loc>
-    <lastmod>2024-02-02T15:20:29+03:00</lastmod>
-  </url><url>
-    <loc>//localhost:1313/about/</loc>
+    <loc>adhaamehab.github.io/about/</loc>
     <lastmod>2024-01-01T14:49:34+03:00</lastmod>
   </url><url>
-    <loc>//localhost:1313/posts/2022-05-24-productivity-workflow/</loc>
+    <loc>adhaamehab.github.io/posts/2022-05-24-productivity-workflow/</loc>
     <lastmod>2022-05-24T15:20:29+03:00</lastmod>
   </url><url>
-    <loc>//localhost:1313/g-xxxxxxxxx/</loc>
+    <loc>adhaamehab.github.io/g-xxxxxxxxx/</loc>
   </url><url>
-    <loc>//localhost:1313/tags/</loc>
+    <loc>adhaamehab.github.io/tags/</loc>
   </url>
 </urlset>
