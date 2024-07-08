@@ -1,4 +1,4 @@
-baseURL = 'adhaamehab.github.io'
+baseURL = 'adhaamehab.github.io/blog'
 languageCode = 'en-us'
 title = "Blog"
 theme = "typo"
