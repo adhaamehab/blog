@@ -75,7 +75,12 @@ called **hidden-state-to-hidden-state** matrix then added to the input of the ac
 
 So won’t be only affected by but all the previous hidden states that has affected which will ensure the persistence of memory.
 
-[!rnn1](./../../assets/rnn1.webp)
+
+{{ $image := .Resources.GetMatch "rnn1.jpg" }}
+{{ with $image }}
+  <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}">
+{{ end }}
+
 
 A normal RNN network will contain a single neural network layer which makes it unable to learn to connect long information. This issue is also known as Long-term Dependencies.
 
@@ -94,8 +99,11 @@ The only difference between RNN and LSTM that instead of having a single neural 
 An LSTM layer consists of a chain of cell states where each state consists of 4 main layers and 3 gates.
 
 Now let’s walk through an LSTM cell state step by step
+{{ $image := .Resources.GetMatch "rnn2.jpg" }}
+{{ with $image }}
+  <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}">
+{{ end }}
 
-[!rnn2](./../../assets/rnn2.png)
 
 The core of a cell state is the horizontal line that connects between and. This line is where the data flow happens to throw the chain of the cell states. It’s very easy for the data to flow with minimum linear operations or unchanged this whole process is controlled by Gates.
 
@@ -168,7 +176,11 @@ So we will need to write our own accuracy metrics that ignores those paddings pr
 
 After converting the data to a suitable shape. The next step was to design and implement the actual model.
 
-![rnn3](./../../assets/rnn3.png)
+{{ $image := .Resources.GetMatch "rnn3.jpg" }}
+{{ with $image }}
+  <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}">
+{{ end }}
+
 
 model structure
 
@@ -299,13 +311,21 @@ After we train our model we evaluate and visualize the training process it.
 
 **Model Accuracy**
 
-![res1](./../../assets/res1.png)
+{{ $image := .Resources.GetMatch "res1.jpg" }}
+{{ with $image }}
+  <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}">
+{{ end }}
+
 
 
 
 **Model Loss**
 
-![res2](./../../assets/res2.png)
+{{ $image := .Resources.GetMatch "res2.jpg" }}
+{{ with $image }}
+  <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}">
+{{ end }}
+
 
 
 The model has reached `0.916` and started to converge after `30 epochs`
