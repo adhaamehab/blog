@@ -1,13 +1,15 @@
-+++
-title = "On Managing Your Manager, Effectively"
-date = 2024-02-02T15:20:29+03:00
-draft = false
-description = "A note on successfully managing up."
-summary = "Techniques to build a good relationship with your manager."
-toc = true
-readTime = true
-autonumber = true
-+++
+---
+title : "On Managing Your Manager, Effectively"
+date : 2024-02-02T15:20:29+03:00
+draft : false
+description : "A note on successfully managing up."
+summary : "Techniques to build a good relationship with your manager."
+toc : true
+readTime : true
+autonumber : true
+tags : ['management', 'career']
+showTags : true
+---
 
 ## Introduction
 

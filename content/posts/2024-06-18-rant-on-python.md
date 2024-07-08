@@ -1,13 +1,16 @@
-+++
-title = "You are Writing Python the Wrong Way"
-date = 2024-02-03T10:30:00+03:00
-draft = false
-description = "A rant about how Python is a functional, declarative language and why the language itself hates complexity and imperative code."
-summary = "A discussion on Python's true nature as a functional and declarative language."
-toc = true
-readTime = true
-autonumber = true
-+++
+---
+title : "You are Writing Python the Wrong Way"
+date : 2024-02-03T10:30:00+03:00
+draft : false
+description : "A rant about how Python is a functional, declarative language and why the language itself hates complexity and imperative code."
+summary : "A discussion on Python's true nature as a functional and declarative language."
+toc : true
+readTime : true
+autonumber : true
+tags : ['python', 'functional-programming']
+showTags : true
+---
+
 # You are Writing Python the Wrong Way
 > Or I have a high ego and I think you should listen to me.
 
