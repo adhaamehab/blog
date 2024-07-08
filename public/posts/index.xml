@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Blog</title>
+    <link>adhaamehab.github.io/posts/</link>
+    <description>Recent content in Posts on Blog</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 24 May 2022 15:20:29 +0300</lastBuildDate>
+    <atom:link href="adhaamehab.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>2022 05 24 Getting more productive without getting tired.</title>
+      <link>adhaamehab.github.io/posts/2022-05-24-productivity-workflow/</link>
+      <pubDate>Tue, 24 May 2022 15:20:29 +0300</pubDate>
+      <guid>adhaamehab.github.io/posts/2022-05-24-productivity-workflow/</guid>
+      <description>A simple framework to get things done without spending most of your day at work</description>
+    </item>
+  </channel>
+</rss>
