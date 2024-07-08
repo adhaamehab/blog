@@ -1,7 +1,7 @@
 +++
 title = "Deep learning for Arabic part-of-speech tagging"
 date = 2019-03-18
-draft = true
+draft = false
 description = "A simple approach to build PoS-tagger with LSTM and Keras"
 summary = "A simple approach to build PoS-tagger with LSTM and Keras"
 toc = true
