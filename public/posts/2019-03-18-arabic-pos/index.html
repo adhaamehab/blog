@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en-us"
+  dir="ltr">
+
+<head><script src="/blog/livereload.js?mindelay=10&amp;v=2&amp;port=8090&amp;path=blog/livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width"><meta name="description" content="A simple approach to build PoS-tagger with LSTM and Keras" />
+
+<title>
+    
+    Deep learning for Arabic part-of-speech tagging | Adham Ehab
+    
+</title>
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/blog/assets/combined.min.0c6150b54dda8451ca0d02de0cd5318bdcdc2865b5cf417a23959b8a26e4adca.css" media="all">
+
+
+
+</head>
+
+
+
+
+
+
+
+<body class="auto">
+
+  <div class="content">
+    <header>
+      
+
+<div class="header">
+
+    
+
+    <h1 class="header-title">Adham Ehab</h1>
+
+    <div class="flex">
+        
+
+        
+        
+        <p class="small ">
+            <a href="/blog">
+                /home
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/blog/posts">
+                /posts
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/blog/about">
+                /about
+            </a>
+        </p>
+        
+        
+    </div>
+
+    
+
+</div>
+    </header>
+
+    <main class="main">
+      
+
+
+
+
+<div class="breadcrumbs">
+    
+    <a href="/blog/">Home</a>
+    <span class="breadcrumbs-separator"> > </span>
+    
+    <a href="/blog/posts/">Posts</a>
+    <span class="breadcrumbs-separator"> > </span>
+    
+    <a class="breadcrumbs-current" href="/blog/posts/2019-03-18-arabic-pos/">Deep learning for Arabic part-of-speech tagging</a>
+</div>
+
+
+<div  class="autonumber" >
+
+  <div class="single-intro-container">
+
+    
+
+    <h1 class="single-title">Deep learning for Arabic part-of-speech tagging</h1>
+    
+    <p class="single-summary">A simple approach to build PoS-tagger with LSTM and Keras</p>
+    
+
+    
+
+    <p class="single-readtime">
+      
+      
+      
+      <time datetime="2019-03-18T00:00:00&#43;00:00">March 18, 2019</time>
+      
+
+      
+      &nbsp; · &nbsp;
+      11 min read
+      
+    </p>
+
+  </div>
+
+  
+
+  
+  
+
+  <div class="single-tags">
+    
+    <span>
+      <a href="//localhost:8090/blog/tags/python/">#Python</a>
+    </span>
+    
+    
+    <span>
+      <a href="//localhost:8090/blog/tags/nlp/">#Nlp</a>
+    </span>
+    
+    
+    <span>
+      <a href="//localhost:8090/blog/tags/deep-learning/">#Deep-Learning</a>
+    </span>
+    
+    
+    <span>
+      <a href="//localhost:8090/blog/tags/arabic/">#Arabic</a>
+    </span>
+    
+    
+  </div>
+
+  
+  
+
+  
+
+  
+  <aside class="toc">
+    <p><strong>Table of contents</strong></p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#the-problems">The problems</a>
+      <ul>
+        <li><a href="#context-ignorance">Context ignorance</a></li>
+        <li><a href="#part-of-speech-tagging">Part-of-speech tagging</a></li>
+      </ul>
+    </li>
+    <li><a href="#deep-learning-approach">Deep learning Approach</a>
+      <ul>
+        <li><a href="#sequence-modeling-and-rnns">Sequence modeling and RNNs</a></li>
+        <li><a href="#the-mechanism-of-recurrent-neural-networks">The mechanism of Recurrent neural networks</a></li>
+        <li><a href="#long-short-term-memory-architecture">Long Short-Term Memory Architecture</a></li>
+        <li><a href="#a-step-by-step-lstm">A step-by-step LSTM</a></li>
+      </ul>
+    </li>
+    <li><a href="#building-an-arabic-part-of-speech-tagger">Building an Arabic part-of-speech tagger</a>
+      <ul>
+        <li><a href="#the-data">The Data</a></li>
+        <li><a href="#data-preprocessing">Data Preprocessing</a></li>
+      </ul>
+    </li>
+    <li><a href="#keras-implementation-of-lstm">Keras implementation of LSTM</a>
+      <ul>
+        <li><a href="#testing">Testing</a></li>
+      </ul>
+    </li>
+    <li><a href="#results">Results</a></li>
+  </ul>
+</nav>
+  </aside>
+  
+
+  
+
+  <div class="single-content">
+    <blockquote>
+<p>Originally posted on <a href="https://medium.com/towards-data-science/deep-learning-for-arabic-part-of-speech-tagging-810be7278353">Towards Data Science</a></p>
+</blockquote>
+<h2 id="introduction">Introduction</h2>
+<p>In this post, I will explain Long short-term memory network (aka . LSTM) and How it’s used in natural language processing in solving the sequence modeling task while building an Arabic part-of-speech tagger based on Universal Dependancy Tree Bank. This post is part of a series in building a python package for Arabic natural language processing.</p>
+<h2 id="the-problems">The problems</h2>
+<h3 id="context-ignorance">Context ignorance</h3>
+<p>When working on a text data the context of this text matters and can’t be ignored. In fact, words have different meanings based on the context. If we looked at the task of machine translation. Context really matters here while the classical methods will ignore it.</p>
+<p>If we are to write a translation method that takes an English sentence and return it translated into Arabic. The naive approach is to take every word from the original sentence and convert it into the target sentence. This approach will work but it will give no regards to any grammar or context.</p>
+<h3 id="part-of-speech-tagging">Part-of-speech tagging</h3>
+<p>Part of speech tagging is the task of labeling each word in a sentence with a tag that defines the grammatical tagging or word-category disambiguation of the word in this sentence.</p>
+<p>The problem here is to determine the POS tag for a particular instance of a word within a sentence.</p>
+<p>This tags can be used to solve more advanced problems in NLP like</p>
+<p>Language Understanding because knowing the tags means helps in obtaining a better understanding of the text as different words can have different meaning based on their location within the sentence.
+Text-to-speech and automated speaking tone control.
+Ignoring the context when tagging words will only result in the baseline of acceptance as the approach would tagging each word with the most common tag associated with this word from the training set.</p>
+<p>So what we are trying to accomplish here is to overcome this issue and find an approach that doesn’t ignore the context of the data.</p>
+<h2 id="deep-learning-approach">Deep learning Approach</h2>
+<h3 id="sequence-modeling-and-rnns">Sequence modeling and RNNs</h3>
+<p>More specifically the issue we are trying to solve known as sequence modeling. Where we are trying to model sequential data like text or sound and learn to model it.</p>
+<p>Sequence modeling or Sequence-to-sequence modeling was first introduced by Google Translation Team.</p>
+<p>In general, Neural Networks are pattern recognition models which learn and enhance by iterating over the dataset and get better in recognizing patterns within the data.</p>
+<p>Recurrent Neural Network is designed to prevent neural networks from decay by using feedback loops. Those feedback loops are what makes RNN better at solving the sequence learning task.</p>
+<p>RNNs works more similar to a human brain than feedforward networks do. Because the human brain thinks persistently. So, when you are reading this post each word affects your understanding of the post you don’t throw away previous words from your memory to read a new word.</p>
+<h3 id="the-mechanism-of-recurrent-neural-networks">The mechanism of Recurrent neural networks</h3>
+<p>RNNs address the context of context by using memory units. The output that the RNN produce at step is affected by the output from the step. So in general RNN has two sources of input. One is the actual input and two is the context (memory) unit from previous input.</p>
+<p>Mathematically,</p>
+<p><em>Feedforward</em> networks are defined by the formula.</p>
+<p>The new state is a function of the <em>weights matrix</em> multiplied by the input vector</p>
+<p>The result of this multiplication is then passed to the method called <em>Activation function</em>. which produce the final result.</p>
+<p>The same process is applied in <em>Recurrent network</em> with a simple modification.</p>
+<p>The previous state is first multiplied by a matrix</p>
+<p>called <strong>hidden-state-to-hidden-state</strong> matrix then added to the input of the activation function</p>
+<p>So won’t be only affected by but all the previous hidden states that has affected which will ensure the persistence of memory.</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+<figure class="">
+
+    <div>
+        <img loading="lazy" alt="img" src=" https://raw.githubusercontent.com/adhaamehab/blog/main/static/images/arabic-pos/rnn1.webp">
+    </div>
+
+    
+</figure></p>
+<p>A normal RNN network will contain a single neural network layer which makes it unable to learn to connect long information. This issue is also known as Long-term Dependencies.</p>
+<h3 id="long-short-term-memory-architecture">Long Short-Term Memory Architecture</h3>
+<p>RNNs are great. They helped a lot in solving many tasks in NLP. Still, they have the issue of Long-Term Dependencies.</p>
+<blockquote>
+<p>you can read more about LTD in Colah’s great blog post <a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">here</a></p>
+</blockquote>
+<p>LSTMs are designed to solve the LTD issue by remembering information for a longer time than RNN.</p>
+<p>The only difference between RNN and LSTM that instead of having a single neural network layer in RNN. We have 4 NN layers in LSTM interacting together in a special way.</p>
+<h3 id="a-step-by-step-lstm">A step-by-step LSTM</h3>
+<p>An LSTM layer consists of a chain of cell states where each state consists of 4 main layers and 3 gates.</p>
+<p>Now let’s walk through an LSTM cell state step by step
+
+
+
+
+
+
+
+
+
+
+
+<figure class="">
+
+    <div>
+        <img loading="lazy" alt="img" src=" https://raw.githubusercontent.com/adhaamehab/blog/main/static/images/arabic-pos/rnn2.png">
+    </div>
+
+    
+</figure></p>
+<p>The core of a cell state is the horizontal line that connects between and. This line is where the data flow happens to throw the chain of the cell states. It’s very easy for the data to flow with minimum linear operations or unchanged this whole process is controlled by Gates.</p>
+<p>Gates are what control the change of the data. They change the data optionally with a <em>sigmoid neural layer</em> and a <em>vector multiplication operation</em>.</p>
+<p>The <em>Sigmoid layer</em> is a method that generates float value between and this value control how much data will be passed through the gate. means <em>nothing</em> while <code>$One $</code> means all.</p>
+<p>The first step is that the sigmoid layer decides what information to pass from the result of multiplying by. We can represent this operation mathematically like this:</p>
+<p>The previous step did decide what data it’ll forget and what data it’ll carry on. In the second step, we need to actually do this.</p>
+<p>We take the previous result and multiply it by the old state.</p>
+<p>The old state is computed using the <em>Tanh</em> activation function. Multiplying the <em>sigmoid</em> by the <em>tanh</em> will decide which information the network forget and which get. Mathematically:</p>
+<p>Finally, we need to decide what is the value of</p>
+<p>Those operations are applied sequentially on the chain of cell states. Looking at the mathematical model of an LSTM can be intimidating so we are going to move to the applied part and implement an LSTM model with Keras for POS-tagger for the Arabic language.</p>
+<h2 id="building-an-arabic-part-of-speech-tagger">Building an Arabic part-of-speech tagger</h2>
+<p>now as we walked through the idea behind deep learning approach for sequence modeling. We will apply that to build an Arabic language part-of-speech tagger.</p>
+<p>For English language, PoS tagging is an already-solved-problem. For a reach morphological language like Arabic. The problem still persists and there is <strong>ZERO</strong> open sources deep-learning based Arabic part-of-speech tagger. Our goal now is to use what’ve learned about LSTMs and build an open source tagger.</p>
+<h3 id="the-data">The Data</h3>
+<p>The lack of open source tagger is an obvious result of the lack of an Arabic treebank dataset.</p>
+<p>The well-known Penn TreeBank costs around 3k$ and the Quranic Treebank is very classical and perform poorly on day-to-day words.</p>
+<p><a href="https://universaldependencies.org/">Universal Dependencies</a> (UD) is a framework for cross-linguistically consistent grammatical annotation and an open community effort with over 200 contributors producing more than 100 treebanks in over 70 languages Including Arabic</p>
+<h3 id="data-preprocessing">Data Preprocessing</h3>
+<p>UD provides the data set in <a href="http://universaldependencies.org/conll17/">CoNLL</a> form. We can use <a href="https://github.com/pyconll/pyconll">pyconll</a> to convert the dataset from CoNLL format into pandas data frame.</p>
+<p>We need our data to be sequentially structured. So we need it in the following shape</p>
+<pre tabindex="0"><code>[
+    [(Word1, T1), (Word2, T2), ...., (WordN, TM)], # Sentence one
+    [(Word1, T1), (Word2, T2), ...., (WordN, TM)], # Sentence two
+    .
+    .
+    .
+    [(Word1, T1), (Word2, T2), ...., (WordN, TM)] # Sentence M
+]
+</code></pre><p>Now as the data set is structured in a useful way. We want to encode our text data to numerical values.</p>
+<p>This process is known as <strong>WordEmbedding</strong>.</p>
+<p>The idea is simple, we give each word in our data a unique integer value. And substitute with this value in the data set so we can do pointwise operations on the data.</p>
+<p>So before implementing the model, we have two <strong>WordEmbeddings</strong> <em>word2index</em> and <em>tag2index</em>. Which encode the words and the part-of-speech tags</p>
+<p>Because we are doing seq2seq task which requires the input and the output to be fixed. The data should be transformed such that each sequence has the same length. This vectorization allows the LSTM model to efficiently perform batch matrix operation.</p>
+<p>We can do this in Keras by adding <code>0</code>&rsquo;s to the shorter sentences until all our sentences have the same lengths.</p>
+<p>The problem is that the model will be able to predict those values easily. So the accuracy will be very high even if the model didn’t predict any tag correctly.</p>
+<p>So we will need to write our own accuracy metrics that ignores those paddings predictions.</p>
+<h2 id="keras-implementation-of-lstm">Keras implementation of LSTM</h2>
+<p>After converting the data to a suitable shape. The next step was to design and implement the actual model.</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+<figure class="">
+
+    <div>
+        <img loading="lazy" alt="img" src=" https://raw.githubusercontent.com/adhaamehab/blog/main/static/images/arabic-pos/rnn3.png">
+    </div>
+
+    
+</figure></p>
+<p>model structure</p>
+<p>Now let’s explain the model thoroughly,</p>
+<p><em>InputLayer</em> is the first layer of the model. Keras has fixed size layer as explained in the preprocessing part so we define this layer with the maximum length of a sequence in the training set.</p>
+<p>Embedding The <em>embedding</em> layer requires that the input data be integer encoded so that each word is represented by a unique integer. It is initialized with random weights then it will learn for each word in the dataset</p>
+<p>LSTM The LSTM <em>encoder</em> layer is a <em>sequence-to-sequence</em> layer. It provides a sequence output rather than an integer value. And return_sequences force the layer to make the previous sequence input for the next one.</p>
+<p>Bidirectional Bidirectional wrapper duplicates the LSTM layer so we have two <em>side-by-side</em> layers that transfer the resulted sequences to the inputted one. In practical this approach has a great effect on the long short-term memory. I used the default merge mode [concat] for the Bidirectionallayer.</p>
+<p>TimeDistributed Dense layer is used to keep one-to-one relations on input and output layers. It applies the same Dense (fully-connected) operation to every timestep of a 3D tensor.</p>
+<p>Activation The activation method for the Dense layer. We could’ve defined the activation method as a parameter in the Dense layer but the second one is a better approach*</p>
+<p>check the full source code here <a href="https://github.com/adhaamehab/arabicnlp">github.com/adhaamehab/arabicnlp</a></p>
+<h3 id="testing">Testing</h3>
+<p>This unittest is used to use the end to end model</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-1"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-1"> 1</a></span><span><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">unittest</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-2"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-2"> 2</a></span><span><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">arabicnlp</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-3"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-3"> 3</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-4"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-4"> 4</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-5"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-5"> 5</a></span><span><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">IntegrationTest</span>(unittest<span style="color:#000;font-weight:bold">.</span>TestCase):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-6"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-6"> 6</a></span><span>    <span style="color:#d14">&#34;&#34;&#34;Integration test for package interface&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-7"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-7"> 7</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-8"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-8"> 8</a></span><span>    testtext <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-9"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-9"> 9</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-10"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-10">10</a></span><span>    <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">test_tokenization</span>(<span style="color:#999">self</span>):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-11"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-11">11</a></span><span>        <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>assertTrue(arabicnlp<span style="color:#000;font-weight:bold">.</span>tokens(<span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>testtext))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-12"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-12">12</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-13"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-13">13</a></span><span>    <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">test_stemming</span>(<span style="color:#999">self</span>):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-14"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-14">14</a></span><span>        <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>assertTrue(arabicnlp<span style="color:#000;font-weight:bold">.</span>stem(<span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>testtext))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-15"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-15">15</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-16"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-16">16</a></span><span>    <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">test_tags</span>(<span style="color:#999">self</span>):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-17"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-17">17</a></span><span>        <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>assertTrue(arabicnlp<span style="color:#000;font-weight:bold">.</span>tags(<span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>testtext))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-18"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-18">18</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-19"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-19">19</a></span><span>    <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">test_spelling</span>(<span style="color:#999">self</span>):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-20"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-20">20</a></span><span>        <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>assertTrue(arabicnlp<span style="color:#000;font-weight:bold">.</span>correct(<span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>testtext))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-21"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-21">21</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-22"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-22">22</a></span><span>    <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">test_sentiment</span>(<span style="color:#999">self</span>):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-23"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-23">23</a></span><span>        <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>assertTrue(arabicnlp<span style="color:#000;font-weight:bold">.</span>sentiment(<span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>testtext))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-24"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-24">24</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-25"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-25">25</a></span><span>    <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">test_similarity</span>(<span style="color:#999">self</span>):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-26"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-26">26</a></span><span>        <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>assertTrue(arabicnlp<span style="color:#000;font-weight:bold">.</span>similarity(<span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>testtext, <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>testtext))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-27"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-27">27</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-28"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-28">28</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-29"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-29">29</a></span><span><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">UnitTest</span>(unittest<span style="color:#000;font-weight:bold">.</span>TestCase):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-30"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-30">30</a></span><span>    <span style="color:#d14">&#34;&#34;&#34;Unit test here&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-31"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-31">31</a></span><span>    <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">test_correction</span>(<span style="color:#999">self</span>):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-32"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-32">32</a></span><span>        
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-33"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-33">33</a></span><span>        result <span style="color:#000;font-weight:bold">=</span> []
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-34"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-34">34</a></span><span>        cases<span style="color:#000;font-weight:bold">=</span> {<span style="color:#d14">&#39;توصية&#39;</span> : <span style="color:#d14">&#39;تتتتتتتتوصية&#39;</span> , <span style="color:#d14">&#39;الهام&#39;</span> : <span style="color:#d14">&#39;الهم&#39;</span>, <span style="color:#d14">&#39;املائية&#39;</span> : <span style="color:#d14">&#39;املاءية&#39;</span> }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-35"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-35">35</a></span><span>        <span style="color:#000;font-weight:bold">for</span> _, val <span style="color:#000;font-weight:bold">in</span> cases<span style="color:#000;font-weight:bold">.</span>items():
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-36"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-36">36</a></span><span>            result<span style="color:#000;font-weight:bold">.</span>append(arabicnlp<span style="color:#000;font-weight:bold">.</span>correct(val))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-37"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-37">37</a></span><span>              
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-38"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-38">38</a></span><span>        <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>assertEqual(cases<span style="color:#000;font-weight:bold">.</span>keys(),result)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-39"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-39">39</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-40"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-40">40</a></span><span>    <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">test_stemming</span>(<span style="color:#999">self</span>):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-41"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-41">41</a></span><span>        dictionary <span style="color:#000;font-weight:bold">=</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-42"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-42">42</a></span><span>            <span style="color:#d14">&#34;فليكن عندك الشجاعة لتفعل بدلاً من أن تقوم برد فعل &#34;</span> : <span style="color:#d14">&#34;فلك عند شجع فعل بدل من ان تقم برد فعل&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-43"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-43">43</a></span><span>            <span style="color:#d14">&#34;محمود و مهاب اصحاب منذ الطفولة&#34;</span> : <span style="color:#d14">&#34;حمد و هاب صحب منذ طفل&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-44"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-44">44</a></span><span>            <span style="color:#d14">&#34;المَدّ و الجَزْر يحدثان في البحر&#34;</span> : <span style="color:#d14">&#34;الم د و الج ز ر حدث في بحر&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-45"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-45">45</a></span><span>            <span style="color:#d14">&#34;لا يتوقف الناس عن اللعب لأنهم كبروا، بل يكبرون لأنهم توقفوا عن اللعب&#34;</span> : <span style="color:#d14">&#34;لا وقف لنس عن لعب أنهم كبرو ، بل كبر أنهم وقف عن لعب&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-46"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-46">46</a></span><span>            <span style="color:#d14">&#34;فهرس مقالات عربية رائعة&#34;</span> : <span style="color:#d14">&#34;هرس قال عرب رئع&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-47"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-47">47</a></span><span>            <span style="color:#d14">&#34;سينتقل من خلالها من روضة أنيقة إلى روضة ثانية&#34;</span> : <span style="color:#d14">&#34;نقل من خلل من روض جمل الى روض ثني&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-48"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-48">48</a></span><span>            <span style="color:#d14">&#34;كما أن بعض تلك المقالات قد خرجت في طباعة رديئة&#34;</span> : <span style="color:#d14">&#34;كما ان بعض تلك قال قد خرج في طبع ردئ&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-49"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-49">49</a></span><span>            <span style="color:#d14">&#34;تختصر عليه كثيراً من الوقت والجهد&#34;</span> : <span style="color:#d14">&#34;خصر عليه كثر من الق جهد&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-50"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-50">50</a></span><span>            <span style="color:#d14">&#34;بسم الله الرحمن الرحيم&#34;</span> : <span style="color:#d14">&#34;بسم الل رحم رحم&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-51"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-51">51</a></span><span>            <span style="color:#d14">&#34; تشتمل على أبواب متفرقة&#34;</span> : <span style="color:#d14">&#34;شمل على بوب تفرق&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-52"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-52">52</a></span><span>            
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-53"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-53">53</a></span><span>        }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-54"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-54">54</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-55"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-55">55</a></span><span>        result_list <span style="color:#000;font-weight:bold">=</span> []
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-56"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-56">56</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-57"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-57">57</a></span><span>        <span style="color:#000;font-weight:bold">for</span> key, value <span style="color:#000;font-weight:bold">in</span> dictionary<span style="color:#000;font-weight:bold">.</span>items():
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-58"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-58">58</a></span><span>            result_list<span style="color:#000;font-weight:bold">.</span>append(<span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>__lemmas_checker(key, value))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-59"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-59">59</a></span><span>        <span style="color:#000;font-weight:bold">return</span> <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>assertTrue(<span style="color:#0086b3">all</span>(result_list), <span style="color:#000;font-weight:bold">True</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-60"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-60">60</a></span><span>            
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-61"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-61">61</a></span><span>    <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">__lemmas_checker</span>(<span style="color:#999">self</span>, test_str, correct_string):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-62"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-62">62</a></span><span>        <span style="color:#d14">&#34;&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-63"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-63">63</a></span><span><span style="color:#d14">        Checking if the Algorithm&#39;s output matches the correctly initialzied values
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-64"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-64">64</a></span><span><span style="color:#d14">        &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-65"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-65">65</a></span><span>        result_string <span style="color:#000;font-weight:bold">=</span> arabicnlp<span style="color:#000;font-weight:bold">.</span>stem(test_str)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-66"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-66">66</a></span><span>        <span style="color:#000;font-weight:bold">if</span> result_string <span style="color:#000;font-weight:bold">==</span> correct_string:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-67"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-67">67</a></span><span>            <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">True</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-68"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-68">68</a></span><span>        <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">False</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-69"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-69">69</a></span><span>    
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-70"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-70">70</a></span><span>    <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">test_tokens</span>(<span style="color:#999">self</span>):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-71"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-71">71</a></span><span>        <span style="color:#d14">&#34;&#34;&#34;Tests for the tokenizer&#34;&#34;&#34;</span>     
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-72"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-72">72</a></span><span>        cases <span style="color:#000;font-weight:bold">=</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-73"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-73">73</a></span><span>         
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-74"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-74">74</a></span><span>            <span style="color:#d14">&#34;وقد تتكون النجوم في أزواج تدور حول بعضها البعض، مثال على ذلك نجده في نجم الشعرى اليمانية.&#34;</span>:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-75"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-75">75</a></span><span>            [<span style="color:#d14">&#34;و&#34;</span>,<span style="color:#d14">&#34;قد&#34;</span>,<span style="color:#d14">&#34;تتكون&#34;</span>,<span style="color:#d14">&#34;النجوم&#34;</span>,<span style="color:#d14">&#34;في&#34;</span>,<span style="color:#d14">&#34;أزواج&#34;</span>,<span style="color:#d14">&#34;تدور&#34;</span>,<span style="color:#d14">&#34;حول&#34;</span>,<span style="color:#d14">&#34;بعضها&#34;</span>,<span style="color:#d14">&#34;البعض&#34;</span>,<span style="color:#d14">&#34;،&#34;</span>,<span style="color:#d14">&#34;مثال&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-76"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-76">76</a></span><span>        ,<span style="color:#d14">&#34;على&#34;</span>,<span style="color:#d14">&#34;ذلك&#34;</span>,<span style="color:#d14">&#34;نجده&#34;</span>,<span style="color:#d14">&#34;في&#34;</span>,<span style="color:#d14">&#34;نجم&#34;</span>,<span style="color:#d14">&#34;الشعرى&#34;</span>,<span style="color:#d14">&#34;اليمانية&#34;</span>,<span style="color:#d14">&#34;.&#34;</span>],
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-77"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-77">77</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-78"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-78">78</a></span><span>        <span style="color:#d14">&#34;يبلغ عمر كوكب الأرض حوالي 4.54 مليار سنة (4.54 × 109 سنة ± 1%).&#34;</span>:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-79"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-79">79</a></span><span>        [<span style="color:#d14">&#34;عمر&#34;</span>,<span style="color:#d14">&#34;الأرض&#34;</span>,<span style="color:#d14">&#34;حوالي&#34;</span>,<span style="color:#d14">&#34;4.54&#34;</span>,<span style="color:#d14">&#34;مليار&#34;</span>,<span style="color:#d14">&#34;سنة&#34;</span>,<span style="color:#d14">&#34;(&#34;</span>,<span style="color:#d14">&#34;4.54&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-80"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-80">80</a></span><span>        ,<span style="color:#d14">&#34;×&#34;</span>,<span style="color:#d14">&#34;109&#34;</span>,<span style="color:#d14">&#34;سنة&#34;</span>,<span style="color:#d14">&#34;±&#34;</span>,<span style="color:#d14">&#34;1&#34;</span>,<span style="color:#d14">&#34;%&#34;</span>,<span style="color:#d14">&#34;)&#34;</span>,<span style="color:#d14">&#34;.&#34;</span>]
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-81"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-81">81</a></span><span>        }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-82"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-82">82</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-83"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-83">83</a></span><span>        <span style="color:#000;font-weight:bold">for</span> <span style="color:#000;font-weight:bold">case</span>, correct <span style="color:#000;font-weight:bold">in</span> cases<span style="color:#000;font-weight:bold">.</span>items():
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-84"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-84">84</a></span><span>            res <span style="color:#000;font-weight:bold">=</span> arabicnlp<span style="color:#000;font-weight:bold">.</span>tokens(<span style="color:#000;font-weight:bold">case</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-85"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-85">85</a></span><span>            <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>assertEqual(<span style="color:#0086b3">len</span>(correct),<span style="color:#0086b3">len</span>(res))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-86"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-86">86</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-87"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-87">87</a></span><span>            <span style="color:#000;font-weight:bold">for</span> i <span style="color:#000;font-weight:bold">in</span> <span style="color:#0086b3">range</span>(<span style="color:#0086b3">len</span>(correct)):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-88"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-88">88</a></span><span>                <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>assertEqual(correct[i],res[i])
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-89"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-89">89</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-90"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-90">90</a></span><span>    <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">test_tags</span>(<span style="color:#999">self</span>):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-91"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-91">91</a></span><span>        text <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;وقد تتكون النجوم في أزواج تدور حول بعضها البعض، مثال على ذلك نجده في نجم الشعرى اليمانية.&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-92"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-92">92</a></span><span>        <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>assertGreater(<span style="color:#0086b3">len</span>(arabicnlp<span style="color:#000;font-weight:bold">.</span>tags(text)), <span style="color:#099">0</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-93"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-93">93</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-94"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-94">94</a></span><span><span style="color:#000;font-weight:bold">if</span> __name__ <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;__main__&#39;</span>:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-95"><a style="outline:none;text-decoration:none;color:inherit" href="#hl-1-95">95</a></span><span>    unittest<span style="color:#000;font-weight:bold">.</span>main()
+</span></span></code></pre></div><h2 id="results">Results</h2>
+<p>The training steps took around 40 mins on a 2017 MacBook Pro with 2.5 GHz CPU and 8 GB Ram.</p>
+<p>After we train our model we evaluate and visualize the training process it.</p>
+<p><strong>Model Accuracy</strong></p>
+<p>
+
+
+
+
+
+
+
+
+
+
+<figure class="">
+
+    <div>
+        <img loading="lazy" alt="img" src=" https://raw.githubusercontent.com/adhaamehab/blog/main/static/images/arabic-pos/res1.png">
+    </div>
+
+    
+</figure></p>
+<p><strong>Model Loss</strong></p>
+<p>
+
+
+
+
+
+
+
+
+
+
+<figure class="">
+
+    <div>
+        <img loading="lazy" alt="img" src=" https://raw.githubusercontent.com/adhaamehab/blog/main/static/images/arabic-pos/res2.png">
+    </div>
+
+    
+</figure></p>
+<p>The model has reached <code>0.916</code> and started to converge after <code>30 epochs</code></p>
+<p>In the evaluation we used stochastic gradient descnet as it performs better than Adam in the evaluation*</p>
+<p>Despite the results looks good compared to the Stanford <em>CoreNLP</em> model yet it can be enhanced. But as a first try, it’s not bad.</p>
+
+    
+  </div>
+
+  
+
+  
+  
+
+<div class="single-pagination">
+    <hr />
+
+    <div class="flex">
+
+        <div class="single-pagination-prev">
+            
+        </div>
+
+        <div class="single-pagination-next">
+            
+            <div class="single-pagination-container-next">
+                <div class="single-pagination-text">
+                    <a href="/blog/posts/2022-05-24-productivity-workflow/">
+                        Getting more productive without getting tired.
+                    </a>
+                </div>
+                <div class="single-pagination-text">→</div>
+            </div>
+            
+        </div>
+
+    </div>
+
+    <hr />
+</div>
+
+
+
+  
+
+  
+
+  
+  <div class="back-to-top">
+    <a href="#top">
+      back to top
+    </a>
+  </div>
+  
+
+</div>
+
+
+    </main>
+  </div>
+
+  <footer>
+    
+  </footer>
+
+</body>
+
+<script>
+
+  function isAuto() {
+    return document.body.classList.contains("auto");
+  }
+
+  function setTheme() {
+    if (!isAuto()) {
+      return
+    }
+
+    document.body.classList.remove("auto");
+    let cls = "light";
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      cls = "dark";
+    }
+
+    document.body.classList.add(cls);
+  }
+
+  function invertBody() {
+    document.body.classList.toggle("dark");
+    document.body.classList.toggle("light");
+  }
+
+  if (isAuto()) {
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(invertBody);
+  }
+
+  setTheme();
+
+</script>
+
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+
+
+</html>
