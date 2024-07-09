@@ -20,7 +20,7 @@ googleAnalytics = "G-xxxxxxxxx"
 description = "A blog about building software and other things"
 
 # Appearance settings
-theme = 'auto | light | dark'
+theme = 'auto'
 colorPalette = 'eink'
 hideHeader = false
 
