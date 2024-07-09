@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en-us"
+  dir="ltr">
+
+<head><script src="/blog/livereload.js?mindelay=10&amp;v=2&amp;port=8090&amp;path=blog/livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width"><meta name="description" content="A rant about how Python is a functional, declarative language and why the language itself hates complexity and imperative code." />
+
+<title>
+    
+    You are Writing Python the Wrong Way | Adham Ehab
+    
+</title>
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/blog/assets/combined.min.0c6150b54dda8451ca0d02de0cd5318bdcdc2865b5cf417a23959b8a26e4adca.css" media="all">
+
+
+
+</head>
+
+
+
+
+
+
+
+<body class="auto">
+
+  <div class="content">
+    <header>
+      
+
+<div class="header">
+
+    
+
+    <h1 class="header-title">Adham Ehab</h1>
+
+    <div class="flex">
+        
+
+        
+        
+        <p class="small ">
+            <a href="/blog">
+                /home
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/blog/posts">
+                /posts
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/blog/about">
+                /about
+            </a>
+        </p>
+        
+        
+    </div>
+
+    
+
+</div>
+    </header>
+
+    <main class="main">
+      
+
+
+
+
+<div class="breadcrumbs">
+    
+    <a href="/blog/">Home</a>
+    <span class="breadcrumbs-separator"> > </span>
+    
+    <a href="/blog/posts/">Posts</a>
+    <span class="breadcrumbs-separator"> > </span>
+    
+    <a class="breadcrumbs-current" href="/blog/posts/2024-06-18-rant-on-python/">You are Writing Python the Wrong Way</a>
+</div>
+
+
+<div  class="autonumber" >
+
+  <div class="single-intro-container">
+
+    
+
+    <h1 class="single-title">You are Writing Python the Wrong Way</h1>
+    
+    <p class="single-summary">A discussion on Python&#39;s true nature as a functional and declarative language.</p>
+    
+
+    
+
+    <p class="single-readtime">
+      
+      
+      
+      <time datetime="2024-02-03T10:30:00&#43;03:00">February 3, 2024</time>
+      
+
+      
+      &nbsp; · &nbsp;
+      4 min read
+      
+    </p>
+
+  </div>
+
+  
+
+  
+  
+
+  <div class="single-tags">
+    
+    <span>
+      <a href="//localhost:8090/blog/tags/python/">#Python</a>
+    </span>
+    
+    
+    <span>
+      <a href="//localhost:8090/blog/tags/functional-programming/">#Functional-Programming</a>
+    </span>
+    
+    
+  </div>
+
+  
+  
+
+  
+
+  
+  <aside class="toc">
+    <p><strong>Table of contents</strong></p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#multi-paradigm-language">Multi-Paradigm Language</a></li>
+    <li><a href="#declarative-programming">Declarative Programming</a></li>
+    <li><a href="#pythonic-code">Pythonic Code</a></li>
+    <li><a href="#vouching-for-functional-programming">Vouching for Functional Programming</a></li>
+    <li><a href="#thats-how-the-language-is-designed">That&rsquo;s How the Language is Designed</a></li>
+    <li><a href="#final-advice">Final Advice</a></li>
+  </ul>
+</nav>
+  </aside>
+  
+
+  
+
+  <div class="single-content">
+    <h1 id="you-are-writing-python-the-wrong-way">You are Writing Python the Wrong Way</h1>
+<blockquote>
+<p>Or I have a high ego and I think you should listen to me.</p>
+</blockquote>
+<h2 id="introduction">Introduction</h2>
+<p>For years, I&rsquo;ve seen Python code that makes me cringe. It&rsquo;s not because the code is inherently bad, but because it misses the essence of what Python is meant to be. Python is not just a language; it&rsquo;s a philosophy. And yet, many developers write Python in a way that goes against its core principles.</p>
+<h2 id="multi-paradigm-language">Multi-Paradigm Language</h2>
+<p>Since Python is a multi-paradigm language, you can write Python code in a variety of ways. You can write procedural code, object-oriented code, or functional code. But Python is designed to be simple and readable. That&rsquo;s probably the only common thing between all these paradigms.</p>
+<p>To quote the official Python docs:</p>
+<blockquote>
+<p>Python is an interpreted, interactive, object-oriented programming language. It incorporates modules, exceptions, dynamic typing, very high level dynamic data types, and classes. It supports multiple programming paradigms beyond object-oriented programming, such as procedural and functional programming. Python combines remarkable power with very clear syntax.</p>
+</blockquote>
+<p>So Python at its core can be used in a variety of ways, but it&rsquo;s designed to be simple, readable, and elegant. So why choose complexity over simplicity?</p>
+<h2 id="declarative-programming">Declarative Programming</h2>
+<p>Python is a declarative language. I usually use Python in a functional way, but this is about more than just using one paradigm over another. This is about making all Python code look the same. When you write Python in an imperative way, you make the code harder to read and maintain. You make the code harder to reason about.</p>
+<p>The core idea behind declarative programming is that you are trying to declare what you want to do, not how you want to do it. That&rsquo;s it. It&rsquo;s that easy.</p>
+<h2 id="pythonic-code">Pythonic Code</h2>
+<p>Python is a battery-included language. It has a rich standard library that provides a lot of functionality out of the box. So when you write Python code, you should always try to use the standard library as much as possible. This will make your code more readable, more maintainable, and more efficient.</p>
+<p>This is what Pythonic code is all about. It&rsquo;s about minimizing cognitive overhead as you read the code. So, instead of having to read the inside of a for loop to understand that you are just trying to filter a list, you can just use a list comprehension. Instead of having to read the inside of a function to understand that you are just trying to map a function over a list, you can just use a lambda function.</p>
+<p>This use of common idioms and patterns (not just in Python, but in any language) is what makes code more readable and maintainable. And what creates a better communication channel between developers as they read and write code.</p>
+<h2 id="vouching-for-functional-programming">Vouching for Functional Programming</h2>
+<p>I&rsquo;m not a Haskell or Lisp developer. And I&rsquo;m not trying to explain what&rsquo;s a monad or a functor. But I&rsquo;m a big fan of functional programming. For me, functional programming is about writing declarative code that&rsquo;s preferably stateless and immutable with minimal side effects. And Python is a great language for that.</p>
+<p>When you write Python in a functional way, you make it easier for you (the writer) to think about the code and for others (the readers) to understand it. You make it easier to test and debug. You make it easier to scale and maintain.</p>
+<p>Pairing data classes with functional programming is a great way to write Python code. You can write code that&rsquo;s very efficient and self-explanatory. That doesn&rsquo;t require other people to have extensive experience or domain knowledge to understand what&rsquo;s going on.</p>
+<h2 id="thats-how-the-language-is-designed">That&rsquo;s How the Language is Designed</h2>
+<p>If you look at the Python standard library, large frameworks (like Django and Flask), and popular libraries (like Pandas and Numpy), you&rsquo;ll see that they all follow the same principles. They provide declarative, human-driven APIs that are easy to understand and use. I&rsquo;ve seen a lot of excellent engineers and data scientists write very complex algorithms in a declarative way that makes someone as dumb as me understand what&rsquo;s going on in minutes. While I&rsquo;ve also seen a lot of engineers who would make me spend an hour trying to understand a simple for loop.</p>
+<h2 id="final-advice">Final Advice</h2>
+<p>So, my advice to you is this: write Python in a way that&rsquo;s easy to read. Use the standard library as much as possible. Spend time to invest in the quality of your code. Read a lot of Python code from big projects. This will help you understand the value of writing declarative, efficient code.</p>
+
+    
+  </div>
+
+  
+
+  
+  
+
+<div class="single-pagination">
+    <hr />
+
+    <div class="flex">
+
+        <div class="single-pagination-prev">
+            
+            <div class="single-pagination-container-prev">
+                <div class="single-pagination-text">←</div>
+                <div class="single-pagination-text">
+                    <a href="/blog/posts/2024-07-02-managing-your-manager/">
+                        On Managing Your Manager, Effectively
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="single-pagination-next">
+            
+        </div>
+
+    </div>
+
+    <hr />
+</div>
+
+
+
+  
+
+  
+
+  
+  <div class="back-to-top">
+    <a href="#top">
+      back to top
+    </a>
+  </div>
+  
+
+</div>
+
+
+    </main>
+  </div>
+
+  <footer>
+    
+  </footer>
+
+</body>
+
+<script>
+
+  function isAuto() {
+    return document.body.classList.contains("auto");
+  }
+
+  function setTheme() {
+    if (!isAuto()) {
+      return
+    }
+
+    document.body.classList.remove("auto");
+    let cls = "light";
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      cls = "dark";
+    }
+
+    document.body.classList.add(cls);
+  }
+
+  function invertBody() {
+    document.body.classList.toggle("dark");
+    document.body.classList.toggle("light");
+  }
+
+  if (isAuto()) {
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(invertBody);
+  }
+
+  setTheme();
+
+</script>
+
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+
+
+</html>

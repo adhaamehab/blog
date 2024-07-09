@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Functional-Programming on Adham Ehab</title>
+    <link>//localhost:8090/blog/tags/functional-programming/</link>
+    <description>Recent content in Functional-Programming on Adham Ehab</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 03 Feb 2024 10:30:00 +0300</lastBuildDate>
+    <atom:link href="//localhost:8090/blog/tags/functional-programming/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>You are Writing Python the Wrong Way</title>
+      <link>//localhost:8090/blog/posts/2024-06-18-rant-on-python/</link>
+      <pubDate>Sat, 03 Feb 2024 10:30:00 +0300</pubDate>
+      <guid>//localhost:8090/blog/posts/2024-06-18-rant-on-python/</guid>
+      <description>A discussion on Python&amp;rsquo;s true nature as a functional and declarative language.</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Career on Adham Ehab</title>
+    <link>//localhost:8090/blog/tags/career/</link>
+    <description>Recent content in Career on Adham Ehab</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 02 Feb 2024 15:20:29 +0300</lastBuildDate>
+    <atom:link href="//localhost:8090/blog/tags/career/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>On Managing Your Manager, Effectively</title>
+      <link>//localhost:8090/blog/posts/2024-07-02-managing-your-manager/</link>
+      <pubDate>Fri, 02 Feb 2024 15:20:29 +0300</pubDate>
+      <guid>//localhost:8090/blog/posts/2024-07-02-managing-your-manager/</guid>
+      <description>Techniques to build a good relationship with your manager.</description>
+    </item>
+  </channel>
+</rss>

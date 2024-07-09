@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Home on Adham Ehab</title>
+    <link>//localhost:8090/blog/</link>
+    <description>Recent content in Home on Adham Ehab</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 03 Feb 2024 10:30:00 +0300</lastBuildDate>
+    <atom:link href="//localhost:8090/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>You are Writing Python the Wrong Way</title>
+      <link>//localhost:8090/blog/posts/2024-06-18-rant-on-python/</link>
+      <pubDate>Sat, 03 Feb 2024 10:30:00 +0300</pubDate>
+      <guid>//localhost:8090/blog/posts/2024-06-18-rant-on-python/</guid>
+      <description>A discussion on Python&amp;rsquo;s true nature as a functional and declarative language.</description>
+    </item>
+    <item>
+      <title>On Managing Your Manager, Effectively</title>
+      <link>//localhost:8090/blog/posts/2024-07-02-managing-your-manager/</link>
+      <pubDate>Fri, 02 Feb 2024 15:20:29 +0300</pubDate>
+      <guid>//localhost:8090/blog/posts/2024-07-02-managing-your-manager/</guid>
+      <description>Techniques to build a good relationship with your manager.</description>
+    </item>
+    <item>
+      <title>About</title>
+      <link>//localhost:8090/blog/about/</link>
+      <pubDate>Mon, 01 Jan 2024 14:49:34 +0300</pubDate>
+      <guid>//localhost:8090/blog/about/</guid>
+      <description>I’m a Software Engineer who happens to love what he do. For most of my career I&amp;rsquo;ve been at the right place at the right time. I&amp;rsquo;m known for being a big fan for Python, Go and distributed systems.</description>
+    </item>
+    <item>
+      <title>Getting more productive without getting tired.</title>
+      <link>//localhost:8090/blog/posts/2022-05-24-productivity-workflow/</link>
+      <pubDate>Tue, 24 May 2022 15:20:29 +0300</pubDate>
+      <guid>//localhost:8090/blog/posts/2022-05-24-productivity-workflow/</guid>
+      <description>A simple framework to get things done without spending most of your day at work</description>
+    </item>
+    <item>
+      <title>Deep learning for Arabic part-of-speech tagging</title>
+      <link>//localhost:8090/blog/posts/2019-03-18-arabic-pos/</link>
+      <pubDate>Mon, 18 Mar 2019 00:00:00 +0000</pubDate>
+      <guid>//localhost:8090/blog/posts/2019-03-18-arabic-pos/</guid>
+      <description>A simple approach to build PoS-tagger with LSTM and Keras</description>
+    </item>
+  </channel>
+</rss>

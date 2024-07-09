@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Productivity on Adham Ehab</title>
+    <link>//localhost:8090/blog/tags/productivity/</link>
+    <description>Recent content in Productivity on Adham Ehab</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 24 May 2022 15:20:29 +0300</lastBuildDate>
+    <atom:link href="//localhost:8090/blog/tags/productivity/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Getting more productive without getting tired.</title>
+      <link>//localhost:8090/blog/posts/2022-05-24-productivity-workflow/</link>
+      <pubDate>Tue, 24 May 2022 15:20:29 +0300</pubDate>
+      <guid>//localhost:8090/blog/posts/2022-05-24-productivity-workflow/</guid>
+      <description>A simple framework to get things done without spending most of your day at work</description>
+    </item>
+  </channel>
+</rss>
