@@ -79,7 +79,7 @@ So won’t be only affected by but all the previous hidden states that has affec
 
 
 
-![img](https://raw.githubusercontent.com/adhaamehab/blog/main/static/images/arabic-pos/rnn2.webp)
+![img](https://raw.githubusercontent.com/adhaamehab/blog/main/static/images/arabic-pos/rnn1.webp)
 
 
 
