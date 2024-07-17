@@ -1,6 +1,6 @@
 ---
 title : "You are Writing Python the Wrong Way"
-date : 2024-02-03T10:30:00+03:00
+date : 2024-06-18
 draft : false
 description : "A rant about how Python is a functional, declarative language and why the language itself hates complexity and imperative code."
 summary : "A discussion on Python's true nature as a functional and declarative language."
