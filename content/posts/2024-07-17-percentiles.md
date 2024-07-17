@@ -15,13 +15,15 @@ showTags: true
 ## Introduction
 
 When working with production systems, we usually track metrics like **latency** and **throughput** to understand system performance. But, sometime (and I mean most of the time), those metrics can give a **false** sense of good performance.
+
 Well, not the metrics themselves but how we reason about them and how they get used and visualized. 
 
-In the must-read blog post on the **[somethingsimilar](https://www.somethingsimilar.com/2013/01/14/notes-on-distributed-systems-for-young-bloods/#metrics)** site: **notes on distributed systems for the young bloods**, _Jeff Hodges_ makes a point about metrics and percentiles:
+In the amazing blog **[somethingsimilar: notes on distributed systems for the young bloods](https://www.somethingsimilar.com/2013/01/14/notes-on-distributed-systems-for-young-bloods/#metrics)**: _Jeff Hodges_ makes a point about metrics and percentiles:
 
 > __Metrics are the only way to get your job done.__ Exposing metrics is the only way to bridge the gap between what you believe your system does in production and what it actually does.
 
-> __Use percentiles, not averages.__ Percentiles are more accurate and informative than averages in the vast majority of distributed systems. Using a mean assumes that the metric under evaluation follows a bell curve, but in practice, this describes very few metrics engineers care about. “Average latency” is a commonly reported metric, but I’ve never once seen a distributed system whose latency followed a bell curve.
+> __Use percentiles, not averages.__ Percentiles are more accurate and informative than averages. Using a mean assumes that the metric under evaluation follows a bell curve.
+> “Average latency” is a commonly reported metric, but I’ve never once seen a distributed system whose latency followed a bell curve.
 
 This is a very valid point. Personally, I fell in this issue countless time early in my career, largely from a poor understanding of the statstics part of this and how to interpret system performance data.
 
@@ -35,7 +37,7 @@ Taking a hands-on approach on this, let's assume we just deployed a new API wher
 
 We can easily plot this as a line chart:
 
-<img width="527" alt="line chart of latency" src="https://github.com/user-attachments/assets/46c9d67a-d100-4b5d-ac7f-d147b66041fc">
+![img](https://github.com/user-attachments/assets/46c9d67a-d100-4b5d-ac7f-d147b66041fc)
 
 We can also calculate the average latency with the following formula:
 
@@ -57,7 +59,7 @@ $$
 
 So, looking at the average for our API, it shows `23.5 ms`, which means our API is meeting expectations and everything is fine.
 
-<img width="501" alt="image" src="https://github.com/user-attachments/assets/58a033a2-ec81-4c94-b8b9-1bd52eb3e0e9">
+![img](https://github.com/user-attachments/assets/58a033a2-ec81-4c94-b8b9-1bd52eb3e0e9)
 
 **But** this is misleading, and once we have a deeper look at the data we will realize we are not even close to meeting the expectations and only percentiles can give us the full picture.
 
@@ -71,8 +73,7 @@ This can be calcualted with these formulas
 
 $$
 \begin{align}
-rank &=  \lfloor{Quantile * (length(Latency) + 1)}
-floor 
+rank &=  \lfloor{Quantile * (length(Latency) + 1)}\rfloor 
 \end{align}
 $$
 
@@ -88,7 +89,7 @@ Usually in monitoring systems, we are interested in higher quantiles.
 
 Sorting our dataset, it now looks like this:
 
-<img width="622" alt="sorted latency bar chart" src="https://github.com/user-attachments/assets/51a97a73-08fb-462b-ba27-ee83a0c54190">
+![img](https://github.com/user-attachments/assets/51a97a73-08fb-462b-ba27-ee83a0c54190)
 
 #### P50
 
@@ -121,7 +122,7 @@ P50 &= 18 ms
 \end{align}
 $$
 
-<img width="622" alt="image" src="https://github.com/user-attachments/assets/4515ad1e-9fbe-4625-a4b6-8d2a77087327">
+![img](https://github.com/user-attachments/assets/4515ad1e-9fbe-4625-a4b6-8d2a77087327)
 
 _So, the P50 shows us that 50% of our requests are meeting our 25ms latency threshold._
 
@@ -148,7 +149,7 @@ P75 &= 30 ms
 \end{align}
 $$
 
-<img width="510" alt="image" src="https://github.com/user-attachments/assets/60b397d3-4cac-46d4-9254-38d0e64f55d9">
+![img](https://github.com/user-attachments/assets/60b397d3-4cac-46d4-9254-38d0e64f55d9)
 
 
 This tells us that at least 25% of our requests are exceeding our threshold.
