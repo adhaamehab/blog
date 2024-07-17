@@ -7,7 +7,7 @@ summary : "A simple approach to build PoS-tagger with LSTM and Keras"
 toc : true
 readTime : true
 autonumber : true
-tags : ["python", "nlp", "deep-learning", "arabic"]
+tags : ["python", "nlp", "deep-learning"]
 showTags : true
 ---
 

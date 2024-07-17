@@ -8,6 +8,7 @@ toc: true
 readTime: true
 autonumber: true
 tags: ['performance', 'distributed-systems', 'statistics']
+math: true
 showTags: true
 ---
 

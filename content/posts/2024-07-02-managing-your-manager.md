@@ -7,7 +7,7 @@ summary : "Techniques to build a good relationship with your manager."
 toc : true
 readTime : true
 autonumber : true
-tags : ['management', 'career']
+tags : ['career']
 showTags : true
 ---
 
