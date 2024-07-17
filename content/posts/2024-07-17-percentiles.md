@@ -154,7 +154,14 @@ $$
 
 This tells us that at least 25% of our requests are exceeding our threshold.
 
-By applying the same formula to calculate the P90, P99, and P99.9 quantiles, we gain more insights into our system's performance. 
+#### P90
+
+By applying the same formula to calculate the P90, P99, and P99.9 quantiles, we gain more insights into our system's performance.
+
+![img](https://github.com/user-attachments/assets/7326d3b3-e06d-4c9d-90bd-13dcf477461b)
+
+The P90 shows us that we have 10% of our requests are taking at least 40ms which is nearly double of our average latency. 
+
 
 ### Full Picture
 
@@ -163,6 +170,7 @@ Putting together all the information we got gives us a comprehensive view of our
 - 50% of our requests are meeting our threshold.
 - At least 25% of our requests are exceeding our threshold.
 - 25% of requests are over 30ms.
+- 10% of requests are nearly double our average latency.
 
 With this information, we can reason about our system's performance and take concrete actions to improve it.
 
