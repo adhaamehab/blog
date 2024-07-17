@@ -1,18 +1,7 @@
 {{ if .Site.Params.giscus.enable }}
-<script src="https://giscus.app/client.js"
-        data-repo="{{ .Site.Params.giscus.repo }}"
-        data-repo-id="{{ .Site.Params.giscus.repoid }}"
-        data-category="{{ .Site.Params.utteranc.category }}"
-        data-category-id="{{ .Site.Params.giscus.categoryid }}"
-        data-mapping="{{ .Site.Params.giscus.mapping }}"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="{{ .Site.Params.giscus.theme }}"
-        data-lang="en"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async>
+<script src="https://giscus.app/client.js" data-repo="adhaamehab/blog" data-repo-id="R_kgDOMTgmgg" data-category="Q&A"
+        data-category-id="DIC_kwDOMTgmgs4Cg39J" data-mapping="pathname" data-strict="0" data-reactions-enabled="1"
+        data-emit-metadata="0" data-input-position="bottom" data-theme="preferred_color_scheme" data-lang="en"
+        crossorigin="anonymous" async>
         </script>
 {{ end }}
