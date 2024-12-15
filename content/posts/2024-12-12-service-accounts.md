@@ -29,7 +29,7 @@ In cloud environments, IAM serves two main purposes:
 
 When you logged into your cloud console, IAM verified your identity and checked what permissions you have. These permissions are usually organized into roles - collections of permissions that make sense together. For example, a "Storage Viewer" role might include permissions to list and read buckets, but not modify them.
 
-<img width="667" alt="iam workflow" src="https://github.com/user-attachments/assets/d9857075-caa5-45ff-88e6-0423cfaa16c5" />
+![img](https://github.com/user-attachments/assets/d9857075-caa5-45ff-88e6-0423cfaa16c5)
 
 
 ---
@@ -43,7 +43,7 @@ So when you use the service account to authenticate your service, it will go thr
 
 The beauty of service accounts in cloud environments is that they're designed for programmatic access. Instead of username/password combinations, they use keys and tokens that can be easily rotated and managed programmatically. This allows you to have a fine-grained control over what your service can do. And you can easily rotate the credentials when they expire.
 
-<img width="667" alt="cloud-sa" src="https://github.com/user-attachments/assets/5903f7de-040c-4045-aed1-8c6594b2e4c4" />
+![img](https://github.com/user-attachments/assets/5903f7de-040c-4045-aed1-8c6594b2e4c4)
 
 And all cloud providers have a predefined set of roles that you can use for almost all scenarios. From experience, the less "custom" roles you have, the better and cleaner access you have.
 Most likely, you will need to assign multiple roles to a service account. But this is better than having a single role with a lot of permissions.
@@ -59,7 +59,7 @@ Based on the permissions, the request either succeeds or gets denied
 
 What makes Kubernetes service accounts special is how tightly they're integrated with the cluster's role-based access control (RBAC) system. You define what a service account can do by binding it to roles or cluster roles.
 
-<img width="1047" alt="image" src="https://github.com/user-attachments/assets/9d14b85e-9614-48f6-9e7f-f4ec846d82f0" />
+![img](https://github.com/user-attachments/assets/9d14b85e-9614-48f6-9e7f-f4ec846d82f0)
 
 
 ## The Bridge: Workload Identity
@@ -76,7 +76,7 @@ Here's how it works:
 - The pod can exchange this token for temporary cloud credentials
 - The pod can now make authenticated calls to cloud APIs using these credentials
 
-<img width="1295" alt="image" src="https://github.com/user-attachments/assets/042d75e4-de91-4441-b72b-9d4194534ec6" />
+![img](https://github.com/user-attachments/assets/042d75e4-de91-4441-b72b-9d4194534ec6)
 
 
 This approach has several benefits:
