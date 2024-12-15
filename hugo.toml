@@ -17,7 +17,7 @@ googleAnalytics = "G-7E1YYFCSSD"
 
 [params]
 # Meta description
-description = "A blog about building software and other things"
+description = "I write about software, data, ML and product."
 
 # Appearance settings
 theme = 'auto'
@@ -27,7 +27,7 @@ hideHeader = false
 # Intro on main page, content is markdown
 homeIntroTitle = 'Hello!'
 homeIntroContent = """
-I am a software engineer with passion for computer science, distributed systems, databases and ML systems.
+I build data and ML systems and I write about it. 
 """
 
 # Collection to display on home
