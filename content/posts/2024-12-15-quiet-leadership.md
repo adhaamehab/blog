@@ -99,6 +99,6 @@ I would highly recommend this book to anyone who is looking to learn how great l
 
 I think there are great lessons to be learned from this book. It's not an easy task but with time and practice it could be a natural skill to develop.
 
-### Footnotes
+## Footnotes
 
 The quotes used here are from the book "Quiet Leadership: Winning Hearts, Minds and Matches" by Carlo Ancelotti. All rights reserved to the book author(s).
