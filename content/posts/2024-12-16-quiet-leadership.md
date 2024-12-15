@@ -33,7 +33,7 @@ After that comes the **Success and Stability Phase**: when you are now part of t
 
 Later comes the **Breakup Phase**: when you start feeling out of sync and decide to leave. 
 
-![img]("https://github.com/user-attachments/assets/75433218-e02d-4fdd-a311-2568e76839c9")
+![img](https://github.com/user-attachments/assets/75433218-e02d-4fdd-a311-2568e76839c9)
 
 
 Or as Mr. Ancelotti put it: 
