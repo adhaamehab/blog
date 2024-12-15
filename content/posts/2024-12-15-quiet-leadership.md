@@ -1,6 +1,6 @@
 ---
 title: "Quiet Leadership - Lessons from the Carlo Ancelotti's book."
-date: 2024-12-16
+date: 2024-12-15
 draft: false
 description: "Summary of Carlo Ancelotti's book on quiet leadership."
 summary: "Summary of Carlo Ancelotti's book on quiet leadership."
