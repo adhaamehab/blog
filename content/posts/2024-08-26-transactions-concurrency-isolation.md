@@ -6,7 +6,7 @@ description: "Part two of the Postgres Database series. This post covers Transac
 summary: "Summary of Postgres Transactions, ACID properties and Concurrency Control"
 toc: true
 readTime: true
-autonumber: true
+autonumber: false
 tags: ['databases', 'postgres', 'transactions', 'concurrency']
 math: true
 showTags: true
