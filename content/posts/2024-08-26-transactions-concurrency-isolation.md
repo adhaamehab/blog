@@ -81,13 +81,13 @@ This means that the database should provide us with a way to configure our trans
 This brings us to another important aspect of transactions - durability. When a transaction completes successfully, we need to be confident that those changes are permanent, even if our database crashes right after. It's like saving an important document - you want to be sure your work is actually saved, not just floating somewhere in temporary memory.
 
 In our banking example, once we get confirmation that the money transfer went through, we need that change to stick. Both Ronaldo and Messi should see their new account balances even if the database server crashes and restarts right after the transfer.
-
+----
 # Understanding ACID Properties
 
 You've probably heard the term "ACID" thrown around when people talk about database transactions. But the problem with this topic is that most people think they only need to memorize these properties as abstract concepts (mostly to answer questions in an interview).
 But when we talk about database transactions, ACID properties are the backbone of what makes them reliable and predictable. And this was the core debate a few years ago between the SQL and NoSQL communities. Since if you don't have strong ACID properties, you don't really know what you will get when you query your database. (Though in the recent years, NoSQL databases improved in this area a lot.)
 
-## 1. Atomicity (All or Nothing)
+## Atomicity (All or Nothing)
 
 Atomicity might sound like a complex term, but it's actually a very simple (and powerful) concept. Think of it as an "all or nothing" guarantee. When you mark a set of operations as a transaction, the database promises that _either all of them will succeed, or none of them will happen at all_.
 
@@ -110,7 +110,7 @@ Without atomicity, you could end up in situations where:
 
 Atomicity prevents these _partial failures_. The entire rebalancing operation either completes successfully or rolls back entirely. If anything goes wrong at any step, all changes are undone automatically. This is why we often say transactions are "rolled back" - it's like rewinding a tape to the beginning if something goes wrong. (Think a time machine)
 
-## 2. Consistency (Following the Rules)
+## Consistency (Following the Rules)
 
 Consistency ensures that a transaction can only bring the database from one valid state to another valid state. It's like having a set of rules that must always be followed.
 
@@ -123,7 +123,7 @@ For example, if we have a rule that account balances can't go negative, a transa
 ![img](https://github.com/user-attachments/assets/eaa01cb2-7572-4a43-ad3e-04e8f89a2e89)
 
 
-## 3. Isolation (Working Independently)
+## Isolation (Working Independently)
 
 Isolation is probably the trickiest ACID property to understand. It determines how transactions deal with each other when they're running at the same time.
 
@@ -134,11 +134,13 @@ Different isolation levels provide different guarantees about what concurrent tr
 ![img](https://github.com/user-attachments/assets/4fe6542a-80ee-488c-b5d9-0f921d47716f)
 
 
-## 4. Durability (Changes that Stick)
+## Durability (Changes that Stick)
 
 We covered this briefly earlier - durability means that once a transaction is committed, it stays committed. Your changes are permanent and survive any subsequent system or power failures.
 
 It doesn't just mean the data is saved - it means it's saved in a way that can survive various types of failures and can be recovered correctly when the system restarts (We will cover disaster recovery in a later post).
+
+----
 
 # Isolation & Concurrency Control 
 
@@ -211,7 +213,9 @@ Data migration or transformation processes
 
 For example, when updating user hierarchies or permission structures, you might need serializable isolation to ensure the integrity of your access control system.
 
-### Practical Applications
+-----
+
+## Practical Applications
 Consider these scenarios in a data system:
 
 #### Event Processing
