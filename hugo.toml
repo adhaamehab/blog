@@ -62,15 +62,15 @@ url = "https://x.com/_adhameh"
 # Main menu pages
 [[params.menu]]
 name = "home"
-url = "/blog"
+url = "/"
 
 [[params.menu]]
 name = "posts"
-url = "/blog/posts"
+url = "/posts"
 
 [[params.menu]]
 name = "about"
-url = "/blog/about"
+url = "/about"
 
 # Syntax highlight on code blocks
 [markup]
