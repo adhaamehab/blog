@@ -21,13 +21,13 @@ description = "I write about software, data, ML and product."
 
 # Appearance settings
 theme = 'auto'
-colorPalette = 'eink'
+colorPalette = 'default'
 hideHeader = false
 
 # Intro on main page, content is markdown
 homeIntroTitle = 'Hello!'
 homeIntroContent = """
-I build data and ML systems and I write about it. 
+I write about data, ml, distributed systems, cs, product and start-ups.
 """
 
 # Collection to display on home
@@ -71,6 +71,10 @@ url = "/posts"
 [[params.menu]]
 name = "about"
 url = "/about"
+
+[[params.menu]]
+name = "bookshelf"
+url = "/bookshelf"
 
 # Syntax highlight on code blocks
 [markup]
