@@ -7,6 +7,8 @@ draft = false
 
 ![bookshelf](https://github.com/user-attachments/assets/fb14d963-f09d-4756-b4ab-c202e094c404)
 
+Last updated: `2024-12-21`
+
 ### Engineering Books
 
 #### Software Design & Architecture
