@@ -15,9 +15,9 @@ When I decided to leave, it was one of the hardest decisions I'd ever made. Most
 
 In early 2021, six months before I left *Arqam*, my closest friend *Ibrahim* joined a UK seed-stage startup called *Factmata*. Founded by *Dhruv* and a group of ML researchers from Meta in 2017 after the [Cambridge Analytica scandal](https://en.wikipedia.org/wiki/Facebook%E2%80%93Cambridge_Analytica_data_scandal), they had raised around $4.5M to tackle misinformation and fake news on social media.
 
-Ibrahim and I talked a lot about about the company's struggles with raising more money or gaining traction. The technical issues scaling their ML models, which was making it harder to monetize as a product. 
+Ibrahim and I talked a lot about the company's struggles with raising more money or gaining traction. The technical issues scaling their ML models, which was making it harder to monetize as a product. 
 
-A few months later, the board hired a a new CEO, *Antony*, who was looking for someone to productionize their research-heavy ML technology. In June 2021, after talking with Ant, I joined Factmata to lead the team in building a product around their ML models.
+A few months later, the board hired a new CEO, *Antony*, who was looking for someone to productionize their research-heavy ML technology. In June 2021, after talking with Ant, I joined Factmata to lead the team in building a product around their ML models.
 
 This was one of the biggest technical challenges that I faced. The Models were slow, the infra was manually created. I remember *Antony* making a calendar slot in the team's shared calendar everytime he wanted to present the product to someone so it's not slown down.
 
