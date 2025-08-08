@@ -55,7 +55,8 @@ In fact, the Quiet Observation concept is by far much more powerful than what th
 
 ## Calm in the Chaos
 
-![image](https://github.com/user-attachments/assets/8209f960-9b9a-447c-968b-c3a51a229db7)
+![image](https://github.com/user-attachments/assets/2c785441-9fdc-4eba-a92f-847a4753f075)
+
 
 
 Mr. Ancelotti -- beside all the trophies and the astonishing career -- is known for his calm and composure. He is a massive example of how leaders should stay calm under pressure, especially in high-stakes moments.
